@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,7 +11,17 @@ public class PlayerController : MonoBehaviour
     public Transform shotSpawn;
     public float fireRate;
 
+    public GameObject explosion;
+
     private float nextFire;
+
+    public void Kill()
+    {
+        Instantiate(explosion, transform.position, transform.rotation);
+        Destroy(gameObject);
+
+        GameController.Instance.OnPlayerKilled();
+    }
 	
     private void Update() 
     {
