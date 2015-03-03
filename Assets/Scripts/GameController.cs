@@ -171,5 +171,10 @@ public class GameController : MonoBehaviour
             restartButton.SetActive(true);
             gameOver = false;
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 }
