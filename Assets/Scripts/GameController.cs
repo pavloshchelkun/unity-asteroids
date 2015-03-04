@@ -60,6 +60,7 @@ public class GameController : MonoBehaviour
     {
         asteroids--;
 
+        // Check for next level
         if (asteroids <= 0)
         {
             lives++;
@@ -124,6 +125,7 @@ public class GameController : MonoBehaviour
         return position;
     }
 
+    // Helps to keep object position inside the screen space
     private Vector3 ClampAsteroidPosition(Vector3 position)
     {
         Vector3 point = Camera.main.WorldToViewportPoint(position);
@@ -139,6 +141,7 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
+        // Singleton initialization
         if (Instance == null)
         {
             Instance = this;
@@ -166,6 +169,7 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
+        // If game is over, check for restart
         if (gameOver && Time.time > restartTime)
         {
             restartButton.SetActive(true);

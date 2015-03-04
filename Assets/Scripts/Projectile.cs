@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Projectile : MonoBehaviour
 {
@@ -7,6 +6,7 @@ public class Projectile : MonoBehaviour
 
 	void Start ()
     {
+        // Set initial velocity by speed
         rigidbody.velocity = transform.forward * speed;
 	}
 }

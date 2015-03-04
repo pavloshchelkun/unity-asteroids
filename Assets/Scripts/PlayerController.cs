@@ -19,14 +19,18 @@ public class PlayerController : MonoBehaviour
 
     public void Kill()
     {
+        // Show explosion effect
         Instantiate(explosion, transform.position, transform.rotation);
+        // Destroy this player controller object
         Destroy(gameObject);
 
+        // Notify that player is killed
         GameController.Instance.OnPlayerKilled();
     }
 
     private void Start()
     {
+        // Attach screen controls
         EasyButton.On_ButtonPress += OnButtonPress;
         EasyButton.On_ButtonUp += OnButtonUp;
         EasyJoystick.On_JoystickMove += OnJoystickMove;
@@ -34,6 +38,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnDestroy()
     {
+        // Detach screen controls
         EasyButton.On_ButtonPress -= OnButtonPress;
         EasyButton.On_ButtonUp -= OnButtonUp;
         EasyJoystick.On_JoystickMove -= OnJoystickMove;
@@ -80,8 +85,10 @@ public class PlayerController : MonoBehaviour
 	
     private void Update() 
     {
+        // Use WASD or LeftArrow/RightArrow to control rotation
         transform.Rotate(Vector3.up * (Input.GetAxis("Horizontal") * rotateSpeed * Time.deltaTime));
 
+        // Use space to shoot
         if (Input.GetKey(KeyCode.Space))
         {
             Shoot();
@@ -90,16 +97,20 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Use UpArrow to move or check for isMoving flag is true
         if (Input.GetAxis("Vertical") > 0 || isMoving)
         {
+            // Move
             rigidbody.AddForce(transform.forward * thrustForce * Time.deltaTime);
             rigidbody.drag = 0f;
         }
         else
         {
+            // Brake
             rigidbody.drag = dragForce;
         }
 
+        // Clamp maximum velocity
         if (rigidbody.velocity.magnitude > maxVelocity)
         {
             rigidbody.velocity = rigidbody.velocity.normalized * maxVelocity;

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Asteroid : MonoBehaviour
 {
@@ -15,6 +14,7 @@ public class Asteroid : MonoBehaviour
     public void SetSize(int asteroidSize)
     {
         size = asteroidSize;
+        // Scale asteroid by the size
         transform.localScale = Vector3.one * asteroidSize;
     }
 
@@ -27,27 +27,32 @@ public class Asteroid : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // Asteroid can only hit projectiles or the player
         if (other.tag != Tags.Projectile && other.tag != Tags.Player)
         {
             return;
         }
 
+        // Show explosion effect if exists
         if (explosion != null)
         {
             Instantiate(explosion, transform.position, transform.rotation);
         }
 
+        // Kill player if it is him
         if (other.tag == Tags.Player)
         {
             var player = other.GetComponent<PlayerController>();
             player.Kill();
         }
+        // Kill projectile if it is it
         else
         {
             GameController.Instance.AddScore(scoreValue * size);
             Destroy(other.gameObject);
         }
 
+        // Spawn smaller asteroids if needed
         if (size > 1)
         {
             for (int i = 0; i < piecesOnDestroy; i++)
@@ -56,7 +61,10 @@ public class Asteroid : MonoBehaviour
             }
         }
 
+        // Notify about destroyed asteroid
         GameController.Instance.OnAsteroidDestroyed();
+
+        // Destroy this asteroid
         Destroy(gameObject);
     }
 }
